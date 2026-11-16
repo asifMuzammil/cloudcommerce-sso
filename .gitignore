@@ -1,0 +1,22 @@
+# Secrets: kabhi commit nahi
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+*.tfvars
+!*.tfvars.example
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl.bak
+
+# Node
+node_modules/
+dist/
+.medusa/
+
+# Local notes (inspection dumps)
+notes/
