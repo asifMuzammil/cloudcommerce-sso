@@ -67,3 +67,10 @@ c = json.loads(base64.urlsafe_b64decode(p))
 keep = ("iss", "aud", "sub", "email", "given_name", "family_name", "nonce", "exp")
 print(json.dumps({k: c.get(k) for k in keep}, indent=1))'
 echo "(expected nonce: ${NONCE})"
+
+echo
+echo "UserInfo endpoint claims (same user, fetched with the access token):"
+curl -s -H "Host: ${AM_HOST}" \
+  -H "Authorization: Bearer $(echo "$TOK" | jq -r .access_token)" \
+  "http://localhost:8080/am/oauth2/${REALM_PATH}/userinfo" \
+  | jq '{sub, email, given_name, family_name, name}'
