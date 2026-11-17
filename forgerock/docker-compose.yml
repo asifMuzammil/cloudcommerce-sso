@@ -58,11 +58,19 @@ services:
     #    (it assumes HTTPS behind an ingress). Over plain http:// the browser drops the
     #    Secure session cookie and the XUI shows "Unauthorized access" even with the right
     #    password. Production keeps secure=true and puts AM behind HTTPS (ALB + ACM).
-    # 2) Trust our dev CA (for LDAPS to DS), then run the normal AM entrypoint.
+    # 2) On first boot AM rewrites boot.json to read its config-store password from the
+    #    MAIN keystore (and writes that entry into keystore.jceks). On every start the
+    #    entrypoint copies our original keystore.jceks back, so a second start fails with
+    #    "Can't open boot keystore". ForgeOps never hits this because AM pods are
+    #    disposable. We keep AM's config on a volume, so restore the pristine boot.json
+    #    before each start.
+    # 3) Trust our dev CA (for LDAPS to DS), then run the normal AM entrypoint.
     command:
       - bash
       - -c
       - >-
+        B=/home/forgerock/openam/config/boot.json; P=/home/forgerock/openam/boot.json.pristine;
+        { [ -f $$P ] || cp $$B $$P; } && cp $$P $$B &&
         sed -i 's/com.iplanet.am.cookie.secure=true/com.iplanet.am.cookie.secure=false/'
         /home/forgerock/openam/config/services/realm/root/iplanetamplatformservice/1.0/globalconfig/default/com-sun-identity-servers/server-default.json
         && /home/forgerock/import-pem-certs.sh
