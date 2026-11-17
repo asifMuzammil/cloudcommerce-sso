@@ -54,8 +54,19 @@ services:
     hostname: am
     restart: unless-stopped
     depends_on: [ds-idrepo, ds-cts]  # AM also waits for DS :8080/alive itself
-    # Trust our dev CA (for LDAPS to DS), then run the normal AM entrypoint.
-    command: ["bash", "-c", "/home/forgerock/import-pem-certs.sh && exec /home/forgerock/docker-entrypoint.sh"]
+    # 1) DEV ONLY: the ForgeOps config hard-codes "com.iplanet.am.cookie.secure=true"
+    #    (it assumes HTTPS behind an ingress). Over plain http:// the browser drops the
+    #    Secure session cookie and the XUI shows "Unauthorized access" even with the right
+    #    password. Production keeps secure=true and puts AM behind HTTPS (ALB + ACM).
+    # 2) Trust our dev CA (for LDAPS to DS), then run the normal AM entrypoint.
+    command:
+      - bash
+      - -c
+      - >-
+        sed -i 's/com.iplanet.am.cookie.secure=true/com.iplanet.am.cookie.secure=false/'
+        /home/forgerock/openam/config/services/realm/root/iplanetamplatformservice/1.0/globalconfig/default/com-sun-identity-servers/server-default.json
+        && /home/forgerock/import-pem-certs.sh
+        && exec /home/forgerock/docker-entrypoint.sh
     environment:
       # Public URL of AM = what the browser uses. *.localtest.me resolves to 127.0.0.1,
       # which is exactly where SSM port forwarding lands on your laptop.
