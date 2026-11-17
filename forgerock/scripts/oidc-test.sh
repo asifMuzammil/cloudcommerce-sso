@@ -35,7 +35,13 @@ echo
 echo "   Address bar must show ...?code=...&state=${STATE}"
 echo "   If it shows ?error=... instead, fix that first (no code was issued)."
 echo
-read -r -p "2) Paste the code value here: " CODE
+read -r -p "2) Paste the code (or the WHOLE address-bar URL) here: " CODE
+# Accept the full redirect URL too: pull out code= and check state= matches.
+if [[ "$CODE" == *"code="* ]]; then
+  GOT_STATE=$(sed -n 's/.*[?&]state=\([^&]*\).*/\1/p' <<<"$CODE")
+  CODE=$(sed -n 's/.*[?&]code=\([^&]*\).*/\1/p' <<<"$CODE")
+  [ "$GOT_STATE" = "$STATE" ] || { echo "state mismatch (got '$GOT_STATE', expected '$STATE') - use the URL printed by THIS run."; exit 1; }
+fi
 [ -n "$CODE" ] || { echo "No code entered."; exit 1; }
 
 TOK=$(curl -s -u "${CLIENT_ID}:${SECRET}" \
