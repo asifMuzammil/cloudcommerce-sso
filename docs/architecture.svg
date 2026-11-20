@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="DejaVu Sans, Noto Sans, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474F"/>
+    </marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E68A00"/>
+    </marker>
+    <style>
+      .t  { font-size: 19px; font-weight: bold; fill: #1F2D3D; }
+      .s  { font-size: 15px; fill: #37474F; }
+      .xs { font-size: 13px; fill: #546E7A; }
+      .h  { font-size: 21px; font-weight: bold; fill: #1F2D3D; }
+      .lb { font-size: 14px; fill: #37474F; font-weight: bold; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#FFFFFF"/>
+  <text x="800" y="52" text-anchor="middle" font-size="28" font-weight="bold" fill="#1F2D3D">Learning Enterprise SSO on AWS — Ping Identity (ForgeRock) AM with MFA</text>
+
+  <!-- Laptop -->
+  <rect x="40" y="100" width="330" height="575" rx="14" fill="#F3F6FA" stroke="#8A99AD" stroke-width="2"/>
+  <text x="205" y="135" text-anchor="middle" class="h">Your laptop</text>
+  <g>
+    <rect x="68" y="160" width="274" height="82" rx="10" fill="#FFFFFF" stroke="#B0BEC5"/>
+    <text x="84" y="192" class="t">Browser</text><text x="84" y="220" class="s">AM admin console · user login</text>
+    <rect x="68" y="260" width="274" height="82" rx="10" fill="#FFFFFF" stroke="#B0BEC5"/>
+    <text x="84" y="292" class="t">OIDC client</text><text x="84" y="320" class="s">oidc-test.sh (next: store app)</text>
+    <rect x="68" y="360" width="274" height="82" rx="10" fill="#FFFFFF" stroke="#B0BEC5"/>
+    <text x="84" y="392" class="t">Authenticator (phone)</text><text x="84" y="420" class="s">TOTP 6-digit codes</text>
+    <rect x="68" y="460" width="274" height="82" rx="10" fill="#FFFFFF" stroke="#B0BEC5"/>
+    <text x="84" y="492" class="t">Terraform + AWS CLI</text><text x="84" y="520" class="s">IAM user, least privilege</text>
+    <rect x="68" y="560" width="274" height="82" rx="10" fill="#FFFFFF" stroke="#B0BEC5"/>
+    <text x="84" y="592" class="t">am.localtest.me</text><text x="84" y="620" class="s">= 127.0.0.1 → SSM tunnel</text>
+  </g>
+
+  <!-- tunnel arrow -->
+  <line x1="344" y1="201" x2="516" y2="201" stroke="#E68A00" stroke-width="3" marker-end="url(#ao)" marker-start="url(#ao)"/>
+  <text x="430" y="160" text-anchor="middle" class="lb">SSM port</text>
+  <text x="430" y="178" text-anchor="middle" class="lb">forwarding</text>
+  <text x="430" y="226" text-anchor="middle" class="xs">:8080 · no SSH,</text>
+  <text x="430" y="243" text-anchor="middle" class="xs">no open ports</text>
+
+  <!-- AWS account -->
+  <rect x="470" y="100" width="1090" height="575" rx="14" fill="none" stroke="#FF9900" stroke-width="2.5" stroke-dasharray="10 6"/>
+  <text x="490" y="92" class="lb" fill="#E68A00">AWS account · us-east-1</text>
+
+  <!-- EC2 -->
+  <rect x="518" y="125" width="640" height="525" rx="12" fill="#FFF8EE" stroke="#FF9900" stroke-width="2"/>
+  <text x="538" y="157" class="h">Amazon EC2 · t3.xlarge (16 GB) · Ubuntu 24.04</text>
+  <text x="538" y="182" class="xs">SG: no inbound rules · IMDSv2 · encrypted gp3 · IAM instance role · built with Terraform</text>
+
+  <!-- Docker compose -->
+  <rect x="540" y="200" width="596" height="430" rx="10" fill="#EEF4FF" stroke="#4A6FA5" stroke-width="1.5"/>
+  <text x="560" y="228" class="lb" fill="#2C4A7A">Docker Compose · public ForgeOps images</text>
+
+  <rect x="565" y="245" width="546" height="150" rx="10" fill="#FFFFFF" stroke="#6A1B9A" stroke-width="2"/>
+  <text x="585" y="277" class="t">PingAM 8.1 (ForgeRock Access Management)</text>
+  <text x="585" y="305" class="s">Realm /cloudcommerce · OAuth2 / OpenID Connect provider</text>
+  <text x="585" y="331" class="s">Auth tree CloudCommerceMFA: password → TOTP</text>
+  <text x="585" y="357" class="s">OIDC client: medusa-storefront</text>
+  <text x="585" y="381" class="xs">published on 127.0.0.1:8080 only · audit events as JSON on stdout</text>
+
+  <line x1="700" y1="395" x2="700" y2="465" stroke="#37474F" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="975" y1="395" x2="975" y2="465" stroke="#37474F" stroke-width="2" marker-end="url(#a)"/>
+  <text x="838" y="437" text-anchor="middle" class="lb">LDAPS :1636</text>
+
+  <rect x="565" y="468" width="262" height="140" rx="10" fill="#FFFFFF" stroke="#2E7D32" stroke-width="2"/>
+  <text x="583" y="500" class="t">PingDS · ds-idrepo</text>
+  <text x="583" y="528" class="s">Users (ou=identities)</text>
+  <text x="583" y="552" class="s">AM configuration store</text>
+  <text x="583" y="586" class="xs">mem_limit 1.5 GB</text>
+
+  <rect x="849" y="468" width="262" height="140" rx="10" fill="#FFFFFF" stroke="#2E7D32" stroke-width="2"/>
+  <text x="867" y="500" class="t">PingDS · ds-cts</text>
+  <text x="867" y="528" class="s">Sessions + OAuth2 tokens</text>
+  <text x="867" y="552" class="s">(Core Token Service)</text>
+  <text x="867" y="586" class="xs">mem_limit 1 GB</text>
+
+  <!-- AWS services -->
+  <g>
+    <rect x="1195" y="125" width="340" height="112" rx="10" fill="#FFFFFF" stroke="#E68A00" stroke-width="2"/>
+    <text x="1213" y="158" class="t">AWS Systems Manager</text>
+    <text x="1213" y="186" class="s">Session Manager shell</text>
+    <text x="1213" y="212" class="s">Port forwarding (laptop ↔ AM)</text>
+
+    <rect x="1195" y="260" width="340" height="112" rx="10" fill="#FFFFFF" stroke="#E68A00" stroke-width="2"/>
+    <text x="1213" y="293" class="t">SSM Parameter Store</text>
+    <text x="1213" y="321" class="s">SecureString (aws/ssm KMS key)</text>
+    <text x="1213" y="347" class="s">/cloudcommerce/forgerock/*</text>
+
+    <rect x="1195" y="395" width="340" height="112" rx="10" fill="#FFFFFF" stroke="#E68A00" stroke-width="2"/>
+    <text x="1213" y="428" class="t">Amazon CloudWatch Logs</text>
+    <text x="1213" y="456" class="s">/cloudcommerce/forgerock/am</text>
+    <text x="1213" y="482" class="s">Logs Insights: MFA audit trail</text>
+
+    <rect x="1195" y="530" width="340" height="120" rx="10" fill="#FFFFFF" stroke="#E68A00" stroke-width="2"/>
+    <text x="1213" y="563" class="t">AWS IAM</text>
+    <text x="1213" y="591" class="s">Instance role: SSM core +</text>
+    <text x="1213" y="615" class="s">logs + /cloudcommerce params only</text>
+  </g>
+  <line x1="1158" y1="181" x2="1193" y2="181" stroke="#E68A00" stroke-width="2.5" marker-end="url(#ao)"/>
+  <line x1="1158" y1="316" x2="1193" y2="316" stroke="#E68A00" stroke-width="2.5" marker-end="url(#ao)" marker-start="url(#ao)"/>
+  <line x1="1158" y1="451" x2="1193" y2="451" stroke="#E68A00" stroke-width="2.5" marker-end="url(#ao)"/>
+  <line x1="1158" y1="590" x2="1193" y2="590" stroke="#E68A00" stroke-width="2.5" marker-start="url(#ao)"/>
+
+  <!-- OIDC + MFA flow -->
+  <rect x="40" y="705" width="1520" height="265" rx="14" fill="#F7F9FC" stroke="#8A99AD" stroke-width="2"/>
+  <text x="800" y="742" text-anchor="middle" class="h">OIDC sign-in with MFA — what the client experiences</text>
+  <g>
+    <rect x="68"   y="770" width="262" height="118" rx="10" fill="#FFFFFF" stroke="#4A6FA5" stroke-width="2"/>
+    <text x="84" y="804" class="t">1  /authorize</text><text x="84" y="832" class="s">Client sends state +</text><text x="84" y="856" class="s">nonce to AM</text>
+    <rect x="368"  y="770" width="262" height="118" rx="10" fill="#FFFFFF" stroke="#4A6FA5" stroke-width="2"/>
+    <text x="384" y="804" class="t">2  Password</text><text x="384" y="832" class="s">Page Node →</text><text x="384" y="856" class="s">Data Store Decision</text>
+    <rect x="668"  y="770" width="262" height="118" rx="10" fill="#FFFFFF" stroke="#6A1B9A" stroke-width="2"/>
+    <text x="684" y="804" class="t">3  TOTP code</text><text x="684" y="832" class="s">OATH Token Verifier</text><text x="684" y="856" class="s">(phone authenticator)</text>
+    <rect x="968"  y="770" width="262" height="118" rx="10" fill="#FFFFFF" stroke="#4A6FA5" stroke-width="2"/>
+    <text x="984" y="804" class="t">4  Redirect</text><text x="984" y="832" class="s">?code=… &amp;state=…</text><text x="984" y="856" class="s">to client callback</text>
+    <rect x="1268" y="770" width="262" height="118" rx="10" fill="#FFFFFF" stroke="#2E7D32" stroke-width="2"/>
+    <text x="1284" y="804" class="t">5  Tokens</text><text x="1284" y="832" class="s">Code + client secret →</text><text x="1284" y="856" class="s">ID token + UserInfo</text>
+  </g>
+  <line x1="330" y1="829" x2="366" y2="829" stroke="#37474F" stroke-width="2.5" marker-end="url(#a)"/>
+  <line x1="630" y1="829" x2="666" y2="829" stroke="#37474F" stroke-width="2.5" marker-end="url(#a)"/>
+  <line x1="930" y1="829" x2="966" y2="829" stroke="#37474F" stroke-width="2.5" marker-end="url(#a)"/>
+  <line x1="1230" y1="829" x2="1266" y2="829" stroke="#37474F" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="800" y="935" text-anchor="middle" class="s">Every step is an AM audit event (AM-NODE-LOGIN-COMPLETED / AM-LOGIN-COMPLETED) shipped to CloudWatch Logs</text>
+</svg>
