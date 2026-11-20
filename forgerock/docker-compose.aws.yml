@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# AWS-only overlay: ship AM's stdout (application logs + JSON audit events such
+# as AM-LOGIN-COMPLETED) to CloudWatch Logs with Docker's awslogs driver.
+#
+# Used automatically on the dev box because scripts/secrets-from-ssm.sh writes
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.aws.yml
+# into .env. On a laptop (no instance role) just use docker-compose.yml.
+#
+# dockerd (on the host, not in the container) gets credentials from the EC2
+# instance role, so no keys are configured here. `docker compose logs` keeps
+# working thanks to Docker's local "dual logging" cache.
+# ---------------------------------------------------------------------------
+services:
+  am:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION:-us-east-1}
+        awslogs-group: /cloudcommerce/forgerock/am
+        awslogs-stream: am
+        awslogs-create-group: "false" # Terraform owns the group (retention = 7 days)
+        mode: non-blocking            # never let logging stall AM
+        max-buffer-size: 4m

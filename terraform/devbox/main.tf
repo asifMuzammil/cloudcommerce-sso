@@ -87,6 +87,8 @@ resource "aws_instance" "devbox" {
   # A new Ubuntu AMI is published every few weeks; don't recreate the box
   # (and lose our ForgeRock config) just because of that.
   lifecycle {
-    ignore_changes = [ami]
+    # user_data only runs on first boot; changing it must not replace or
+    # restart this box (the ForgeRock config lives on it).
+    ignore_changes = [ami, user_data]
   }
 }

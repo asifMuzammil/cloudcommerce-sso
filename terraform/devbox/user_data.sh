@@ -5,6 +5,9 @@ set -euxo pipefail
 apt-get update -y
 apt-get install -y ca-certificates curl git unzip jq openssl
 
+# AWS CLI v2 (scripts read/write secrets in SSM Parameter Store)
+snap install aws-cli --classic
+
 # Docker Engine + compose plugin (official convenience script)
 curl -fsSL https://get.docker.com | sh
 usermod -aG docker ubuntu
