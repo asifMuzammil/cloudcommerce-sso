@@ -406,6 +406,8 @@ aws ssm delete-parameters --names $(aws ssm get-parameters-by-path \
   --path /cloudcommerce/forgerock --query 'Parameters[].Name' --output text)
 ```
 
+![terraform destroy: 7 resources destroyed](../project-screenshots/29-terraform-destroy.png)
+
 The Parameter Store secrets survive `terraform destroy` on purpose (Terraform does not own them), so delete them yourself. Also delete the access key of the IAM user you used for Terraform.
 
 ## What I learned, and what's next
