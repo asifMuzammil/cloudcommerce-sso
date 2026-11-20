@@ -1,0 +1,602 @@
+import subprocess
+from PIL import Image
+
+svg_content = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080C15"/>
+      <stop offset="50%" stop-color="#0D1525"/>
+      <stop offset="100%" stop-color="#0A0F1C"/>
+    </linearGradient>
+
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9900"/>
+      <stop offset="100%" stop-color="#F57C00"/>
+    </linearGradient>
+
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#141D2E"/>
+    </linearGradient>
+
+    <!-- Filters for Glow / Shadows -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#FF9900"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#A855F7"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#64748B"/>
+    </marker>
+
+    <!-- Dot Pattern -->
+    <pattern id="gridDots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#1E293B" opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1920" height="1080" fill="url(#gridDots)"/>
+
+  <!-- ========================================== -->
+  <!-- HEADER SECTION (SAFE PADDING: Y: 42 to 145)-->
+  <!-- ========================================== -->
+  <g id="header">
+    <!-- Top Pill Badge -->
+    <rect x="670" y="42" width="580" height="28" rx="14" fill="#1E293B" stroke="#334155" stroke-width="1.2"/>
+    <circle cx="690" cy="56" r="5" fill="#FF9900"/>
+    <text x="706" y="61" font-size="12" font-weight="700" fill="#CBD5E1" letter-spacing="1">AWS COMMUNITY BUILDER · ENTERPRISE SSO ARCHITECTURE</text>
+    <circle cx="1230" cy="56" r="5" fill="#8B5CF6"/>
+
+    <!-- Main Title -->
+    <text x="960" y="102" text-anchor="middle" font-size="31" font-weight="800" fill="url(#titleGrad)" letter-spacing="0.2">
+      Learning Enterprise SSO on AWS: Ping Identity (ForgeRock) AM with MFA
+    </text>
+
+    <!-- Subtitle Tech Specs -->
+    <text x="960" y="132" text-anchor="middle" font-size="14.5" font-weight="500" fill="#94A3B8">
+      Terraform Devbox · SSM Port Forwarding · Zero Inbound Rules · Docker Compose · PingAM 8.1 + Dual PingDS · OIDC TOTP Flow · Total Cost $3.03
+    </text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- LEFT COLUMN: WORKSTATION / LAPTOP (Y:160)  -->
+  <!-- ========================================== -->
+  <g id="workstation" filter="url(#shadow)">
+    <!-- Container Card -->
+    <rect x="50" y="160" width="350" height="605" rx="16" fill="url(#cardBg)" stroke="#334155" stroke-width="1.8"/>
+    
+    <!-- Header Banner -->
+    <rect x="50" y="160" width="350" height="52" rx="16" fill="#1E293B" stroke="#334155" stroke-width="1.8"/>
+    <rect x="50" y="200" width="350" height="12" fill="#1E293B"/>
+    <circle cx="76" cy="186" r="11" fill="#0284C7"/>
+    <!-- Laptop Icon -->
+    <path d="M70,182 L82,182 L82,189 L70,189 Z M68,190 L84,190 C84.5,190 85,190.5 85,191 L67,191 C67,190.5 67.5,190 68,190 Z" fill="#FFFFFF"/>
+    <text x="96" y="191" font-size="14.5" font-weight="800" fill="#F8FAFC">DEVELOPER WORKSTATION</text>
+    
+    <!-- Clean Pill for Client Side -->
+    <rect x="296" y="175" width="90" height="22" rx="11" fill="#0369A1" opacity="0.3" stroke="#0284C7" stroke-width="1"/>
+    <text x="341" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#38BDF8">Client Side</text>
+
+    <!-- Sub-label -->
+    <text x="70" y="234" font-size="11.5" font-weight="600" fill="#64748B" letter-spacing="0.5">LOCAL TOOLS &amp; PROTOCOLS</text>
+
+    <!-- Card 1: Browser -->
+    <g transform="translate(68, 246)">
+      <rect width="314" height="86" rx="10" fill="#0F172A" stroke="#1E293B" stroke-width="1.2"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#0369A1" opacity="0.3"/>
+      <!-- Globe Icon -->
+      <circle cx="26" cy="26" r="8" fill="none" stroke="#38BDF8" stroke-width="1.5"/>
+      <ellipse cx="26" cy="26" rx="4" ry="8" fill="none" stroke="#38BDF8" stroke-width="1.2"/>
+      <line x1="18" y1="26" x2="34" y2="26" stroke="#38BDF8" stroke-width="1.2"/>
+      
+      <text x="48" y="27" font-size="14" font-weight="700" fill="#F1F5F9">Web Browser</text>
+      <text x="48" y="45" font-size="11.5" font-weight="500" fill="#94A3B8">AM Admin Console &amp; User Login</text>
+      <rect x="48" y="55" width="225" height="20" rx="4" fill="#1E293B"/>
+      <text x="54" y="69" font-size="11" font-family="monospace" fill="#38BDF8">http://am.localtest.me:8080/am</text>
+    </g>
+
+    <!-- Card 2: OIDC Client Script -->
+    <g transform="translate(68, 344)">
+      <rect width="314" height="82" rx="10" fill="#0F172A" stroke="#1E293B" stroke-width="1.2"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#6D28D9" opacity="0.3"/>
+      <!-- Terminal Icon -->
+      <path d="M21,21 L26,26 L21,31 M27,31 L33,31" stroke="#A855F7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      
+      <text x="48" y="27" font-size="14" font-weight="700" fill="#F1F5F9">OIDC Client Tester</text>
+      <text x="48" y="45" font-size="11.5" font-weight="500" fill="#94A3B8">Simulates Medusa store OAuth2 flow</text>
+      <rect x="48" y="53" width="130" height="20" rx="4" fill="#1E293B"/>
+      <text x="54" y="67" font-size="11" font-family="monospace" fill="#C084FC">oidc-test.sh</text>
+    </g>
+
+    <!-- Card 3: Mobile Authenticator -->
+    <g transform="translate(68, 438)">
+      <rect width="314" height="82" rx="10" fill="#0F172A" stroke="#1E293B" stroke-width="1.2"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#047857" opacity="0.3"/>
+      <!-- Phone Icon -->
+      <rect x="21" y="19" width="10" height="16" rx="2" fill="none" stroke="#10B981" stroke-width="1.5"/>
+      <circle cx="26" cy="32" r="1" fill="#10B981"/>
+      
+      <text x="48" y="27" font-size="14" font-weight="700" fill="#F1F5F9">Authenticator App (Phone)</text>
+      <text x="48" y="45" font-size="11.5" font-weight="500" fill="#94A3B8">Google / Microsoft Authenticator</text>
+      <rect x="48" y="53" width="215" height="20" rx="4" fill="#064E3B" stroke="#059669" stroke-width="0.8"/>
+      <text x="54" y="67" font-size="11" font-weight="600" fill="#34D399">TOTP: 6-digit dynamic passcode</text>
+    </g>
+
+    <!-- Card 4: Terraform & CLI -->
+    <g transform="translate(68, 532)">
+      <rect width="314" height="82" rx="10" fill="#0F172A" stroke="#1E293B" stroke-width="1.2"/>
+      <rect x="12" y="12" width="28" height="28" rx="6" fill="#B45309" opacity="0.3"/>
+      <!-- Cloud Tool Icon -->
+      <polygon points="26,18 33,22 33,30 26,34 19,30 19,22" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+      
+      <text x="48" y="27" font-size="14" font-weight="700" fill="#F1F5F9">Terraform + AWS CLI</text>
+      <text x="48" y="45" font-size="11.5" font-weight="500" fill="#94A3B8">Infrastructure as Code &amp; SSM auth</text>
+      <rect x="48" y="53" width="200" height="20" rx="4" fill="#1E293B"/>
+      <text x="54" y="67" font-size="11" font-weight="600" fill="#FBBF24">IAM Least-Privilege Role</text>
+    </g>
+
+    <!-- Card 5: DNS Loopback Note -->
+    <g transform="translate(68, 626)">
+      <rect width="314" height="66" rx="8" fill="#162032" stroke="#2563EB" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="14" y="24" font-size="12" font-weight="700" fill="#60A5FA">DNS Resolution Magic:</text>
+      <text x="14" y="42" font-size="11" fill="#94A3B8">*.localtest.me resolves to 127.0.0.1 loopback</text>
+      <text x="14" y="56" font-size="11" fill="#94A3B8">Routes cleanly into local SSM tunnel port :8080</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- MIDDLE CONDUIT: SSM PORT FORWARDING (Y:160)-->
+  <!-- ========================================== -->
+  <g id="ssm-tunnel">
+    <!-- Tunnel Pipeline Graphic -->
+    <rect x="415" y="260" width="135" height="150" rx="12" fill="#1E1B18" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="6 4" filter="url(#shadow)"/>
+    
+    <!-- Lock / Shield Icon -->
+    <circle cx="482" cy="290" r="16" fill="#F59E0B" opacity="0.2"/>
+    <path d="M478,289 L486,289 C487.1,289 488,289.9 488,291 L488,296 C488,297.1 487.1,298 486,298 L478,298 C476.9,298 476,297.1 476,296 L476,291 C476,289.9 476.9,289 478,289 Z M479,289 L479,286 C479,284.3 480.3,283 482,283 C483.7,283 485,284.3 485,286 L485,289 Z" fill="#F59E0B"/>
+    
+    <text x="482" y="321" text-anchor="middle" font-size="12.5" font-weight="800" fill="#FBBF24">SSM TUNNEL</text>
+    <text x="482" y="338" text-anchor="middle" font-size="10.5" font-weight="600" fill="#CBD5E1">Port Forwarding</text>
+    <text x="482" y="354" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#38BDF8">:8080 ↔ :8080</text>
+
+    <!-- Badge Pills -->
+    <rect x="424" y="365" width="117" height="18" rx="4" fill="#78350F"/>
+    <text x="482" y="378" text-anchor="middle" font-size="9" font-weight="700" fill="#FDE68A">0 INBOUND RULES</text>
+
+    <rect x="424" y="386" width="117" height="16" rx="4" fill="#1C1917"/>
+    <text x="482" y="398" text-anchor="middle" font-size="8.5" font-weight="600" fill="#A8A29E">NO SSH KEYS · NO IP</text>
+
+    <!-- Bi-directional arrows -->
+    <line x1="400" y1="335" x2="415" y2="335" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrowOrange)"/>
+    <line x1="550" y1="335" x2="565" y2="335" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrowOrange)"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- CENTER REGION: AWS EC2 INSTANCE (Y:160)    -->
+  <!-- ========================================== -->
+  <g id="ec2-instance" filter="url(#shadow)">
+    <!-- Outer AWS Boundary Box -->
+    <rect x="565" y="160" width="790" height="605" rx="16" fill="#0C1322" stroke="#FF9900" stroke-width="2"/>
+    
+    <!-- Header Banner -->
+    <rect x="565" y="160" width="790" height="52" rx="16" fill="#1A2234" stroke="#FF9900" stroke-width="2"/>
+    <rect x="565" y="200" width="790" height="12" fill="#1A2234"/>
+    
+    <!-- AWS Orange Badge -->
+    <circle cx="595" cy="186" r="12" fill="#FF9900"/>
+    <text x="595" y="191" text-anchor="middle" font-size="13" font-weight="900" fill="#000000">EC2</text>
+    
+    <text x="618" y="191" font-size="15" font-weight="800" fill="#FFFFFF">Amazon EC2 Devbox</text>
+    <text x="772" y="191" font-size="13" font-weight="600" fill="#FBBF24">· t3.xlarge (4 vCPU, 16 GB RAM)</text>
+    <text x="1040" y="191" font-size="13" font-weight="500" fill="#94A3B8">· Ubuntu 24.04 LTS · us-east-1</text>
+
+    <!-- Security Specs Pill Bar -->
+    <g transform="translate(585, 218)">
+      <rect width="750" height="28" rx="6" fill="#111C2E" stroke="#1E293B" stroke-width="1"/>
+      <circle cx="16" cy="14" r="4" fill="#10B981"/>
+      <text x="28" y="18" font-size="11.5" font-weight="700" fill="#E2E8F0">HARDENED BASE:</text>
+      <text x="145" y="18" font-size="11" font-weight="500" fill="#94A3B8">Security Group: 0 Inbound</text>
+      <text x="315" y="18" font-size="11" font-weight="500" fill="#94A3B8">· IMDSv2 Required (Hop limit 1)</text>
+      <text x="525" y="18" font-size="11" font-weight="500" fill="#94A3B8">· Encrypted 30GB gp3</text>
+      <text x="660" y="18" font-size="11" font-weight="600" fill="#38BDF8">· IAM Role</text>
+    </g>
+
+    <!-- DOCKER COMPOSE CONTAINER ENCLOSURE -->
+    <g transform="translate(585, 254)">
+      <rect width="750" height="492" rx="14" fill="#0A0E1A" stroke="#2563EB" stroke-width="1.6"/>
+      
+      <!-- Docker Header -->
+      <path d="M0,14 C0,6.2 6.2,0 14,0 L736,0 C743.8,0 750,6.2 750,14 L750,38 L0,38 Z" fill="#1E293B"/>
+      <!-- Docker Whale Mini-Icon -->
+      <rect x="18" y="12" width="18" height="14" rx="2" fill="#38BDF8" opacity="0.3"/>
+      <text x="44" y="25" font-size="13.5" font-weight="800" fill="#60A5FA">Docker Compose</text>
+      <text x="162" y="25" font-size="12" font-weight="500" fill="#94A3B8">Ping Identity Evaluation ForgeOps Stack (Internal Docker Bridge Network)</text>
+
+      <!-- 1. PINGAM 8.1 CARD -->
+      <g transform="translate(18, 48)">
+        <rect width="714" height="208" rx="12" fill="#1A132F" stroke="#8B5CF6" stroke-width="2"/>
+        
+        <!-- PingAM Title Bar -->
+        <rect width="714" height="42" rx="12" fill="#2E1065"/>
+        <rect y="30" width="714" height="12" fill="#2E1065"/>
+        <circle cx="24" cy="21" r="10" fill="#A855F7"/>
+        <text x="24" y="26" text-anchor="middle" font-size="12" font-weight="900" fill="#FFFFFF">AM</text>
+        <text x="44" y="26" font-size="16" font-weight="800" fill="#FFFFFF">PingAM 8.1 (ForgeRock Access Management)</text>
+        <rect x="495" y="10" width="205" height="22" rx="11" fill="#4C1D95"/>
+        <text x="597" y="25" text-anchor="middle" font-size="11" font-weight="700" fill="#DDD6FE">HOST PORT 127.0.0.1:8080</text>
+
+        <!-- AM Details Grid -->
+        <!-- Left: Realm & Protocols -->
+        <g transform="translate(20, 54)">
+          <text x="0" y="16" font-size="12" font-weight="700" fill="#C084FC">REALM CONFIGURATION</text>
+          <text x="0" y="36" font-size="12" font-weight="600" fill="#E2E8F0">Realm: <tspan fill="#38BDF8">/cloudcommerce</tspan></text>
+          <text x="0" y="55" font-size="11.5" fill="#94A3B8">• OAuth2.0 &amp; OpenID Connect 1.0 Provider</text>
+          <text x="0" y="73" font-size="11.5" fill="#94A3B8">• OIDC Client: <tspan font-weight="700" fill="#F1F5F9">medusa-storefront</tspan></text>
+          <text x="0" y="91" font-size="11.5" fill="#94A3B8">• Grant Types: <tspan fill="#FBBF24">authorization_code</tspan>, refresh</text>
+          <text x="0" y="109" font-size="11.5" fill="#94A3B8">• Scopes: <tspan font-family="monospace" fill="#34D399">openid profile email</tspan></text>
+        </g>
+
+        <!-- Right: Authentication Tree with TOTP -->
+        <g transform="translate(370, 54)">
+          <text x="0" y="16" font-size="12" font-weight="700" fill="#F472B6">AUTHENTICATION TREE: CloudCommerceMFA</text>
+          
+          <!-- Tree Nodes flow visual -->
+          <g transform="translate(0, 24)">
+            <!-- Node 1 -->
+            <rect width="95" height="34" rx="6" fill="#2E1065" stroke="#7C3AED" stroke-width="1"/>
+            <text x="47" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#EDE9FE">Page Node</text>
+            <text x="47" y="28" text-anchor="middle" font-size="9" fill="#A78BFA">User &amp; Pass</text>
+
+            <line x1="95" y1="17" x2="115" y2="17" stroke="#A78BFA" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+            <!-- Node 2 -->
+            <rect x="115" width="95" height="34" rx="6" fill="#2E1065" stroke="#7C3AED" stroke-width="1"/>
+            <text x="162" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#EDE9FE">Data Store</text>
+            <text x="162" y="28" text-anchor="middle" font-size="9" fill="#A78BFA">Validate DS</text>
+
+            <line x1="210" y1="17" x2="230" y2="17" stroke="#A78BFA" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+            <!-- Node 3 (MFA) -->
+            <rect x="230" width="95" height="34" rx="6" fill="#064E3B" stroke="#059669" stroke-width="1.4"/>
+            <text x="277" y="15" text-anchor="middle" font-size="10.5" font-weight="800" fill="#6EE7B7">OATH Verifier</text>
+            <text x="277" y="28" text-anchor="middle" font-size="9" font-weight="700" fill="#34D399">TOTP MFA</text>
+          </g>
+
+          <!-- Audit Output -->
+          <rect y="68" width="325" height="34" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+          <text x="10" y="84" font-size="10.5" font-weight="700" fill="#FCD34D">AUDIT LOGGING:</text>
+          <text x="100" y="84" font-size="10" fill="#E2E8F0">Structured JSON on stdout</text>
+          <text x="10" y="96" font-size="9.5" font-family="monospace" fill="#94A3B8">AM-NODE-LOGIN-COMPLETED · AM-LOGIN-COMPLETED</text>
+        </g>
+      </g>
+
+      <!-- LDAPS CONNECTION ARROWS -->
+      <g transform="translate(18, 256)">
+        <line x1="170" y1="0" x2="170" y2="38" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+        <line x1="535" y1="0" x2="535" y2="38" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+
+        <!-- Middle Badge -->
+        <rect x="290" y="6" width="134" height="24" rx="12" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+        <text x="357" y="22" text-anchor="middle" font-size="11" font-weight="800" fill="#A7F3D0">LDAPS :1636 (TLS)</text>
+      </g>
+
+      <!-- 2. DUAL PINGDS DIRECTORY SERVERS -->
+      <!-- DS 1: ds-idrepo -->
+      <g transform="translate(18, 296)">
+        <rect width="348" height="180" rx="12" fill="#06281E" stroke="#10B981" stroke-width="2"/>
+        <rect width="348" height="38" rx="12" fill="#064E3B"/>
+        <rect y="26" width="348" height="12" fill="#064E3B"/>
+        
+        <circle cx="20" cy="19" r="8" fill="#34D399"/>
+        <text x="36" y="24" font-size="14.5" font-weight="800" fill="#FFFFFF">PingDS · ds-idrepo</text>
+        <rect x="238" y="8" width="100" height="20" rx="10" fill="#065F46"/>
+        <text x="288" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#A7F3D0">MEM: 1.5 GB</text>
+
+        <text x="16" y="60" font-size="12" font-weight="700" fill="#34D399">IDENTITY &amp; CONFIG REPOSITORY</text>
+        <text x="16" y="82" font-size="11.5" font-weight="600" fill="#E2E8F0">• Users Store: <tspan font-family="monospace" fill="#6EE7B7">ou=identities</tspan></text>
+        <text x="16" y="102" font-size="11.5" font-weight="600" fill="#E2E8F0">• AM Configuration: <tspan font-family="monospace" fill="#6EE7B7">ou=am-config</tspan></text>
+        <text x="16" y="122" font-size="11" fill="#94A3B8">• User credentials &amp; profile attributes</text>
+        <text x="16" y="140" font-size="11" fill="#94A3B8">• Realm policy &amp; tree definitions</text>
+        <rect x="16" y="150" width="316" height="20" rx="4" fill="#022C22"/>
+        <text x="24" y="164" font-size="10.5" font-family="monospace" fill="#A7F3D0">Initialized via setup --serverId idrepo</text>
+      </g>
+
+      <!-- DS 2: ds-cts -->
+      <g transform="translate(384, 296)">
+        <rect width="348" height="180" rx="12" fill="#06281E" stroke="#10B981" stroke-width="2"/>
+        <rect width="348" height="38" rx="12" fill="#064E3B"/>
+        <rect y="26" width="348" height="12" fill="#064E3B"/>
+        
+        <circle cx="20" cy="19" r="8" fill="#34D399"/>
+        <text x="36" y="24" font-size="14.5" font-weight="800" fill="#FFFFFF">PingDS · ds-cts</text>
+        <rect x="238" y="8" width="100" height="20" rx="10" fill="#065F46"/>
+        <text x="288" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#A7F3D0">MEM: 1.0 GB</text>
+
+        <text x="16" y="60" font-size="12" font-weight="700" fill="#34D399">CORE TOKEN SERVICE (CTS)</text>
+        <text x="16" y="82" font-size="11.5" font-weight="600" fill="#E2E8F0">• Active User Sessions (SSO state)</text>
+        <text x="16" y="102" font-size="11.5" font-weight="600" fill="#E2E8F0">• OAuth2 / OIDC Access &amp; Refresh Tokens</text>
+        <text x="16" y="122" font-size="11" fill="#94A3B8">• High-throughput session cache</text>
+        <text x="16" y="140" font-size="11" fill="#94A3B8">• Automatic TTL &amp; token expiration</text>
+        <rect x="16" y="150" width="316" height="20" rx="4" fill="#022C22"/>
+        <text x="24" y="164" font-size="10.5" font-family="monospace" fill="#A7F3D0">Separated for prod scaling &amp; durability</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- RIGHT COLUMN: AWS NATIVE CLOUD SERVICES    -->
+  <!-- ========================================== -->
+  <g id="aws-services" filter="url(#shadow)">
+    <!-- Container Card -->
+    <rect x="1380" y="160" width="490" height="605" rx="16" fill="url(#cardBg)" stroke="#FF9900" stroke-width="1.8"/>
+    
+    <!-- Header Banner -->
+    <rect x="1380" y="160" width="490" height="52" rx="16" fill="#1E293B" stroke="#FF9900" stroke-width="1.8"/>
+    <rect x="1380" y="200" width="490" height="12" fill="#1E293B"/>
+    <circle cx="1408" cy="186" r="11" fill="#FF9900"/>
+    <path d="M1403,182 L1413,182 L1413,189 L1403,189 Z" fill="#000000"/>
+    <text x="1426" y="191" font-size="15" font-weight="800" fill="#F8FAFC">AWS CLOUD SERVICES</text>
+    
+    <!-- Pill for Managed Control Plane -->
+    <rect x="1705" y="175" width="155" height="22" rx="11" fill="#78350F" opacity="0.6" stroke="#F59E0B" stroke-width="1"/>
+    <text x="1782" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#FBBF24">Managed Control Plane</text>
+
+    <!-- Service 1: AWS Systems Manager -->
+    <g transform="translate(1400, 220)">
+      <rect width="450" height="114" rx="10" fill="#0F172A" stroke="#E68A00" stroke-width="1.4"/>
+      <rect x="14" y="14" width="36" height="36" rx="8" fill="#B45309" opacity="0.3"/>
+      <!-- SSM Gear Icon -->
+      <circle cx="32" cy="32" r="10" fill="none" stroke="#F59E0B" stroke-width="1.8"/>
+      <circle cx="32" cy="32" r="4" fill="#F59E0B"/>
+      
+      <text x="60" y="32" font-size="15" font-weight="800" fill="#FFFFFF">AWS Systems Manager</text>
+      <rect x="330" y="16" width="105" height="20" rx="10" fill="#78350F"/>
+      <text x="382" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#FDE68A">SECURE ACCESS</text>
+      
+      <text x="60" y="55" font-size="12" font-weight="600" fill="#FBBF24">• Session Manager:</text>
+      <text x="180" y="55" font-size="11.5" fill="#94A3B8">Interactive root shell (zero SSH)</text>
+      <text x="60" y="73" font-size="12" font-weight="600" fill="#FBBF24">• Port Forwarding:</text>
+      <text x="180" y="73" font-size="11.5" fill="#94A3B8">AWS-StartPortForwardingSession</text>
+      <text x="60" y="93" font-size="11" font-family="monospace" fill="#38BDF8">aws ssm start-session --target i-0abcd... :8080</text>
+    </g>
+
+    <!-- Service 2: SSM Parameter Store -->
+    <g transform="translate(1400, 348)">
+      <rect width="450" height="114" rx="10" fill="#0F172A" stroke="#E68A00" stroke-width="1.4"/>
+      <rect x="14" y="14" width="36" height="36" rx="8" fill="#B45309" opacity="0.3"/>
+      <!-- Key Icon -->
+      <path d="M26,38 L38,26 M34,22 L38,26 L36,28 M30,26 L34,30" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="24" cy="40" r="4" fill="none" stroke="#F59E0B" stroke-width="1.8"/>
+
+      <text x="60" y="32" font-size="15" font-weight="800" fill="#FFFFFF">SSM Parameter Store</text>
+      <rect x="330" y="16" width="105" height="20" rx="10" fill="#78350F"/>
+      <text x="382" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#FDE68A">KMS ENCRYPTED</text>
+
+      <text x="60" y="55" font-size="12" font-weight="600" fill="#FBBF24">• Hierarchy:</text>
+      <text x="140" y="55" font-size="11.5" font-family="monospace" fill="#E2E8F0">/cloudcommerce/forgerock/*</text>
+      <text x="60" y="73" font-size="12" font-weight="600" fill="#FBBF24">• Type:</text>
+      <text x="140" y="73" font-size="11.5" fill="#94A3B8">SecureString with AWS managed key (aws/ssm)</text>
+      <text x="60" y="93" font-size="11" fill="#94A3B8">Injects AM &amp; DS passwords at boot without git leaks</text>
+    </g>
+
+    <!-- Service 3: CloudWatch Logs -->
+    <g transform="translate(1400, 476)">
+      <rect width="450" height="114" rx="10" fill="#0F172A" stroke="#E68A00" stroke-width="1.4"/>
+      <rect x="14" y="14" width="36" height="36" rx="8" fill="#B45309" opacity="0.3"/>
+      <!-- Bar Chart Icon -->
+      <line x1="24" y1="40" x2="24" y2="30" stroke="#F59E0B" stroke-width="3"/>
+      <line x1="32" y1="40" x2="32" y2="24" stroke="#F59E0B" stroke-width="3"/>
+      <line x1="40" y1="40" x2="40" y2="18" stroke="#F59E0B" stroke-width="3"/>
+
+      <text x="60" y="32" font-size="15" font-weight="800" fill="#FFFFFF">Amazon CloudWatch Logs</text>
+      <rect x="330" y="16" width="105" height="20" rx="10" fill="#78350F"/>
+      <text x="382" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#FDE68A">AUDIT TRAIL</text>
+
+      <text x="60" y="55" font-size="12" font-weight="600" fill="#FBBF24">• Log Group:</text>
+      <text x="145" y="55" font-size="11.5" font-family="monospace" fill="#E2E8F0">/cloudcommerce/forgerock/am</text>
+      <text x="60" y="73" font-size="12" font-weight="600" fill="#FBBF24">• Agent:</text>
+      <text x="145" y="73" font-size="11.5" fill="#94A3B8">AWS Logs agent collecting Docker stdout JSON</text>
+      <text x="60" y="93" font-size="11" fill="#94A3B8">Logs Insights queries for MFA attempts &amp; tokens</text>
+    </g>
+
+    <!-- Service 4: AWS IAM Least Privilege -->
+    <g transform="translate(1400, 604)">
+      <rect width="450" height="135" rx="10" fill="#0F172A" stroke="#E68A00" stroke-width="1.4"/>
+      <rect x="14" y="14" width="36" height="36" rx="8" fill="#B45309" opacity="0.3"/>
+      <!-- Shield Icon -->
+      <path d="M32,20 L40,24 L40,32 C40,37 36,41 32,43 C28,41 24,37 24,32 L24,24 Z" fill="none" stroke="#F59E0B" stroke-width="1.8"/>
+
+      <text x="60" y="32" font-size="15" font-weight="800" fill="#FFFFFF">AWS IAM Instance Profile</text>
+      <rect x="330" y="16" width="105" height="20" rx="10" fill="#065F46"/>
+      <text x="382" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#A7F3D0">LEAST PRIVILEGE</text>
+
+      <text x="60" y="55" font-size="11.5" font-weight="600" fill="#FBBF24">• SSM:</text>
+      <text x="110" y="55" font-size="11" fill="#E2E8F0">AmazonSSMManagedInstanceCore</text>
+      <text x="60" y="73" font-size="11.5" font-weight="600" fill="#FBBF24">• Logs:</text>
+      <text x="110" y="73" font-size="11" fill="#E2E8F0">CreateLogStream, PutLogEvents (restricted group)</text>
+      <text x="60" y="91" font-size="11.5" font-weight="600" fill="#FBBF24">• SSM PS:</text>
+      <text x="118" y="91" font-size="11" fill="#E2E8F0">GetParametersByPath (/cloudcommerce only)</text>
+      <text x="60" y="111" font-size="10.5" fill="#6EE7B7">No IAM access keys or static credentials on EC2!</text>
+    </g>
+
+    <!-- Connector lines between EC2 and AWS Services -->
+    <line x1="1355" y1="277" x2="1400" y2="277" stroke="#FF9900" stroke-width="2.2" marker-end="url(#arrowOrange)"/>
+    <line x1="1355" y1="405" x2="1400" y2="405" stroke="#FF9900" stroke-width="2.2" marker-start="url(#arrowOrange)"/>
+    <line x1="1355" y1="533" x2="1400" y2="533" stroke="#FF9900" stroke-width="2.2" marker-end="url(#arrowOrange)"/>
+    <line x1="1355" y1="671" x2="1400" y2="671" stroke="#FF9900" stroke-width="2.2" marker-start="url(#arrowOrange)"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- BOTTOM SECTION: OIDC + MFA SEQUENCE STRIP  -->
+  <!-- ========================================== -->
+  <g id="bottom-flow" filter="url(#shadow)">
+    <!-- Main Outer Strip -->
+    <rect x="50" y="790" width="1820" height="245" rx="16" fill="url(#flowGrad)" stroke="#334155" stroke-width="1.8"/>
+
+    <!-- Section Title & Subtitle -->
+    <g transform="translate(50, 790)">
+      <rect width="1820" height="42" rx="16" fill="#1E293B"/>
+      <rect y="30" width="1820" height="12" fill="#1E293B"/>
+      
+      <!-- Pill Badge for FLOW -->
+      <rect x="18" y="10" width="60" height="22" rx="11" fill="#7C3AED"/>
+      <text x="48" y="25" text-anchor="middle" font-size="11" font-weight="800" fill="#FFFFFF">FLOW</text>
+      
+      <text x="92" y="26" font-size="14.5" font-weight="800" fill="#FFFFFF">
+        END-TO-END OPENID CONNECT (OIDC) SIGN-IN WITH TOTP MFA — COMPLETE CLIENT JOURNEY
+      </text>
+      
+      <rect x="1575" y="10" width="225" height="22" rx="11" fill="#064E3B" stroke="#059669" stroke-width="1"/>
+      <text x="1687" y="25" text-anchor="middle" font-size="11" font-weight="700" fill="#6EE7B7">RFC 6749 / 7636 COMPLIANT</text>
+    </g>
+
+    <!-- 5 Flow Steps Cards (Width: 325 each, Gap: 24) -->
+    <!-- STEP 1 -->
+    <g transform="translate(75, 850)">
+      <rect width="325" height="125" rx="12" fill="#0F172A" stroke="#38BDF8" stroke-width="1.6"/>
+      <rect width="325" height="30" rx="12" fill="#0284C7"/>
+      <rect y="20" width="325" height="10" fill="#0284C7"/>
+      <text x="14" y="20" font-size="12" font-weight="900" fill="#FFFFFF">STEP 1</text>
+      <text x="68" y="20" font-size="12.5" font-weight="800" fill="#E0F2FE">/authorize Request</text>
+
+      <text x="14" y="48" font-size="11.5" font-weight="700" fill="#38BDF8">Client Browser → PingAM</text>
+      <text x="14" y="66" font-size="11" fill="#CBD5E1">• Sends client_id &amp; redirect_uri</text>
+      <text x="14" y="82" font-size="11" fill="#CBD5E1">• response_type=code &amp; scope=openid</text>
+      <text x="14" y="98" font-size="11" fill="#CBD5E1">• state &amp; nonce for CSRF protection</text>
+      <text x="14" y="114" font-size="10.5" font-family="monospace" fill="#94A3B8">/am/oauth2/realms/.../authorize</text>
+    </g>
+
+    <!-- Arrow 1 -> 2 -->
+    <line x1="400" y1="912" x2="423" y2="912" stroke="#64748B" stroke-width="2.5" marker-end="url(#arrowGray)"/>
+
+    <!-- STEP 2 -->
+    <g transform="translate(425, 850)">
+      <rect width="325" height="125" rx="12" fill="#0F172A" stroke="#38BDF8" stroke-width="1.6"/>
+      <rect width="325" height="30" rx="12" fill="#0369A1"/>
+      <rect y="20" width="325" height="10" fill="#0369A1"/>
+      <text x="14" y="20" font-size="12" font-weight="900" fill="#FFFFFF">STEP 2</text>
+      <text x="68" y="20" font-size="12.5" font-weight="800" fill="#E0F2FE">Password Authentication</text>
+
+      <text x="14" y="48" font-size="11.5" font-weight="700" fill="#38BDF8">First Factor Validation</text>
+      <text x="14" y="66" font-size="11" fill="#CBD5E1">• AM renders Page Node login form</text>
+      <text x="14" y="82" font-size="11" fill="#CBD5E1">• User submits demo / DemoPassword123!</text>
+      <text x="14" y="98" font-size="11" fill="#CBD5E1">• Verified against ds-idrepo via LDAPS</text>
+      <text x="14" y="114" font-size="10.5" font-family="monospace" fill="#94A3B8">Data Store Decision: Success</text>
+    </g>
+
+    <!-- Arrow 2 -> 3 -->
+    <line x1="750" y1="912" x2="773" y2="912" stroke="#A855F7" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
+
+    <!-- STEP 3 (MFA) -->
+    <g transform="translate(775, 850)">
+      <rect width="325" height="125" rx="12" fill="#1A102F" stroke="#A855F7" stroke-width="2"/>
+      <rect width="325" height="30" rx="12" fill="#6B21A8"/>
+      <rect y="20" width="325" height="10" fill="#6B21A8"/>
+      <text x="14" y="20" font-size="12" font-weight="900" fill="#FFFFFF">STEP 3</text>
+      <text x="68" y="20" font-size="12.5" font-weight="800" fill="#F5D0FE">TOTP MFA Challenge</text>
+
+      <text x="14" y="48" font-size="11.5" font-weight="700" fill="#F472B6">Second Factor Verification</text>
+      <text x="14" y="66" font-size="11" fill="#CBD5E1">• Tree routes to OATH Token Verifier</text>
+      <text x="14" y="82" font-size="11" fill="#CBD5E1">• User inputs 6-digit TOTP from app</text>
+      <text x="14" y="98" font-size="11" fill="#CBD5E1">• Cryptographically verified (RFC 6238)</text>
+      <text x="14" y="114" font-size="10.5" font-weight="700" fill="#34D399">✓ Session logged in ds-cts</text>
+    </g>
+
+    <!-- Arrow 3 -> 4 -->
+    <line x1="1100" y1="912" x2="1123" y2="912" stroke="#64748B" stroke-width="2.5" marker-end="url(#arrowGray)"/>
+
+    <!-- STEP 4 -->
+    <g transform="translate(1125, 850)">
+      <rect width="325" height="125" rx="12" fill="#0F172A" stroke="#38BDF8" stroke-width="1.6"/>
+      <rect width="325" height="30" rx="12" fill="#0369A1"/>
+      <rect y="20" width="325" height="10" fill="#0369A1"/>
+      <text x="14" y="20" font-size="12" font-weight="900" fill="#FFFFFF">STEP 4</text>
+      <text x="68" y="20" font-size="12.5" font-weight="800" fill="#E0F2FE">Redirect with Auth Code</text>
+
+      <text x="14" y="48" font-size="11.5" font-weight="700" fill="#38BDF8">Authorization Code Issued</text>
+      <text x="14" y="66" font-size="11" fill="#CBD5E1">• AM responds HTTP 302 to callback</text>
+      <text x="14" y="82" font-size="11" fill="#CBD5E1">• Appends ?code=xxx&amp;state=yyy</text>
+      <text x="14" y="98" font-size="11" fill="#CBD5E1">• Short-lived (60s) single-use grant</text>
+      <text x="14" y="114" font-size="10.5" font-family="monospace" fill="#94A3B8">Location: http://localhost:8888/callback</text>
+    </g>
+
+    <!-- Arrow 4 -> 5 -->
+    <line x1="1450" y1="912" x2="1473" y2="912" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+
+    <!-- STEP 5 -->
+    <g transform="translate(1475, 850)">
+      <rect width="345" height="125" rx="12" fill="#06281E" stroke="#10B981" stroke-width="2"/>
+      <rect width="345" height="30" rx="12" fill="#065F46"/>
+      <rect y="20" width="345" height="10" fill="#065F46"/>
+      <text x="14" y="20" font-size="12" font-weight="900" fill="#FFFFFF">STEP 5</text>
+      <text x="68" y="20" font-size="12.5" font-weight="800" fill="#D1FAE5">Token Exchange &amp; UserInfo</text>
+
+      <text x="14" y="48" font-size="11.5" font-weight="700" fill="#34D399">Back-channel HTTPS Call</text>
+      <text x="14" y="66" font-size="11" fill="#CBD5E1">• Client posts code + secret to /access_token</text>
+      <text x="14" y="82" font-size="11" fill="#CBD5E1">• AM issues signed JWT ID Token + Access Token</text>
+      <text x="14" y="98" font-size="11" fill="#CBD5E1">• Client queries /userinfo for claims (email/name)</text>
+      <text x="14" y="114" font-size="10.5" font-weight="700" fill="#6EE7B7">✓ User authenticated &amp; session active!</text>
+    </g>
+
+    <!-- Bottom Audit Callout Bar -->
+    <g transform="translate(75, 988)">
+      <rect width="1745" height="34" rx="8" fill="#111827" stroke="#F59E0B" stroke-width="1"/>
+      <circle cx="20" cy="17" r="5" fill="#F59E0B"/>
+      <text x="34" y="21" font-size="11.5" font-weight="700" fill="#FDE68A">ENTERPRISE AUDIT TRAIL:</text>
+      <text x="210" y="21" font-size="11.5" font-weight="500" fill="#E2E8F0">
+        Every node outcome (User credentials, TOTP validation, Code grant, Token issue) is written as structured JSON to Docker stdout and streamed into Amazon CloudWatch Logs for full compliance auditing.
+      </text>
+    </g>
+  </g>
+</svg>'''
+
+svg_path = '/home/asif/Desktop/AWS/cloudcommerce-sso/docs/architecture.svg'
+png_path = '/home/asif/Desktop/AWS/cloudcommerce-sso/docs/architecture.png'
+
+with open(svg_path, 'w') as f:
+    f.write(svg_content)
+
+print(f"SVG written to {svg_path} (length: {len(svg_content)} bytes)")
+
+# Render with google-chrome-stable
+cmd = [
+    'google-chrome-stable',
+    '--headless',
+    '--disable-gpu',
+    f'--screenshot={png_path}',
+    '--window-size=1920,1080',
+    f'file://{svg_path}'
+]
+
+res = subprocess.run(cmd, capture_output=True, text=True)
+print("Chrome return code:", res.returncode)
+print("Chrome stderr:", res.stderr)
+
+im = Image.open(png_path)
+print("Rendered PNG dimensions:", im.size)
