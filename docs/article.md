@@ -3,6 +3,7 @@
 *A hands-on learning project with my AWS Community Builder credits: an SSM-only EC2 instance built with Terraform, PingAM and PingDS in Docker Compose, OpenID Connect single sign-on with TOTP multi-factor authentication, secrets in SSM Parameter Store, every login audited in CloudWatch Logs, and everything that broke along the way.*
 
 **Code:** https://github.com/asifMuzammil/cloudcommerce-sso
+**Published on AWS Builder Center:** https://builder.aws.com/content/3MNvXxpyEvCKRvxtKABQuwcMLXi/learning-enterprise-sso-on-aws-ping-identity-forgerock-am-with-mfa-on-ec2-ssm-parameter-store-and-cloudwatch
 
 ![Architecture: laptop to SSM-only EC2 running PingAM and PingDS, with Systems Manager, Parameter Store, CloudWatch Logs and IAM](architecture.png)
 

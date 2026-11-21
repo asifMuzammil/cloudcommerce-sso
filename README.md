@@ -2,7 +2,7 @@
 
 A hands-on learning project: PingAM and PingDS (ForgeRock) on an SSM-only EC2 instance, configured as an OpenID Connect provider with TOTP multi-factor authentication. Secrets live in SSM Parameter Store and every login is audited in CloudWatch Logs.
 
-**📖 Read the full write-up:** [docs/article.md](docs/article.md) · [AWS Builder Center article](#) <!-- TODO: paste the Builder Center link after publishing -->
+**📖 Read the full write-up:** [AWS Builder Center Article](https://builder.aws.com/content/3MNvXxpyEvCKRvxtKABQuwcMLXi/learning-enterprise-sso-on-aws-ping-identity-forgerock-am-with-mfa-on-ec2-ssm-parameter-store-and-cloudwatch) · [Community Builder Space Post](https://builder.aws.com/post/3MOKPs33DloJY13EXr5nNluDiz2_p/learning-enterprise-sso-on-aws-ping-identity-forgerock-am-with-mfa) · [Local Markdown](docs/article.md)
 
 ![Architecture](docs/architecture.png)
 
